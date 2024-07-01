@@ -14,7 +14,7 @@ body{
 }
 
 main{
-    width: 600px;
+    width: 1000px;
     margin: 50px auto;
 }
 
@@ -53,6 +53,7 @@ div#game{
     line-height: 35px;
     height: 105px;
     overflow: hidden;
+    border: none;
 }
 div #game:focus {
     outline: 0;
@@ -108,7 +109,7 @@ div.word{
     position: fixed;
     top: 210px;
     left: 470px;
-    animation: blink .3s infinite;
+    animation: blink .6s infinite;
 }
 #game:focus #cursor{
     display: block;

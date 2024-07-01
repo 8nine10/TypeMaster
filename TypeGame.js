@@ -1,5 +1,24 @@
-const wordPool = "Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum".split(' ');
-const count = wordPool.length;
+let wordPool = [];
+
+async function fetchWords() {
+    try {
+        // Fetch the data from the API
+        const response = await fetch("https://random-word-api.herokuapp.com/word?number=1000");
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const words = await response.json();
+        
+        wordPool = words;
+        
+    } catch (error) {
+        console.error('Error fetching words:', error);
+    }
+}
+
+let count = 1000;
 const gameTime = 30 * 1000;
 window.timer = null;
 window.gameStart = null;
@@ -21,7 +40,8 @@ function formatWord(word) {
     return `<div class='word'><span class="letter">${word.split('').join('</span><span class="letter">')}</span></div>`;
 }
 
-function newGame() {
+async function newGame() {
+    await fetchWords();
     document.getElementById('words').innerHTML = '';
     for(let i = 0; i < 200; i ++) {
         document.getElementById('words').innerHTML += formatWord(randomWord());
@@ -162,3 +182,4 @@ document.getElementById('newGameBtn').addEventListener('click', () => {
 })
 
 newGame();
+fetchWords();
